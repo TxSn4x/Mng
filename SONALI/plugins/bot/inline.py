@@ -3,8 +3,8 @@ from pyrogram.types import (
     InlineKeyboardMarkup,
     InlineQueryResultPhoto,
 )
-from youtubesearchpython.__future__ import VideosSearch
-
+#from youtubesearchpython.__future__ import VideosSearch
+from py_yt import VideosSearch
 from SONALI import app
 from SONALI.utils.inlinequery import answer
 from config import BANNED_USERS
@@ -66,3 +66,4 @@ async def inline_query_handler(client, query):
             return await client.answer_inline_query(query.id, results=answers)
         except:
             return
+
