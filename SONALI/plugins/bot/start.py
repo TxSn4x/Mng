@@ -25,38 +25,23 @@ from SONALI.utils.inline import help_pannel, private_panel, start_panel
 from config import BANNED_USERS
 from strings import get_string
 
+NEXI_VID = [
+
+"https://files.catbox.moe/equ7cf.mp4", 
+]
+
+
+
 @app.on_message(filters.command(["start"]) & filters.private & ~BANNED_USERS)
 @LanguageStart
 async def start_pm(client, message: Message, _):
     await add_served_user(message.from_user.id)
-    
-    
-    typing_message = await message.reply("<b>........</b>")
-    
-    
-    typing_text = "<b>𝖲ᴛᴀʀᴛɪɴɢ...</b>"
-    
-    for i in range(1, len(typing_text) + 1):  
-        try:
-            await typing_message.edit_text(typing_text[:i])
-            await asyncio.sleep(0.001)  
-        except Exception as e:
-            print(f"Error while editing message : {e}")  
-
-    await asyncio.sleep(2)  
-    await typing_message.delete()  
-
-    
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
-
-        if name[0:3] == "del":
-            await del_plist_msg(client=client, message=message, _=_)
-
         if name[0:4] == "help":
             keyboard = help_pannel(_)
-            return await message.reply_photo(
-                photo=config.START_IMG_URL,
+            return await message.reply_video(
+                random.choice(NEXI_VID),
                 caption=_["help_1"].format(config.SUPPORT_CHAT),
                 reply_markup=keyboard,
             )
@@ -194,6 +179,7 @@ async def welcome(client, message: Message):
                 await message.stop_propagation()
         except Exception as ex:
             print(ex)
+
 
 
 
