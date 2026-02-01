@@ -26,34 +26,7 @@ from config import BANNED_USERS
 from strings import get_string
 
 
-@app.on_message(filters.command([""]) & filters.private & ~BANNED_USERS)
-@LanguageStart
-async def start_pm(client, message: Message, _):
-    await add_served_user(message.from_user.id)
-    if len(message.text.split()) > 1:
-        name = message.text.split(None, 1)[1]
-        if name[0:4] == "":
-            keyboard = help_pannel(_)
-            return await message.reply_video(
-                video=config.START_IMG_URL,
-                caption=_["help_1"].format(config.SUPPORT_CHAT),
-                reply_markup=keyboard,
-            )
-        if name[:8] == "connect_":
-            chat_id = name[8:]
-            try:
-                title = (await app.get_chat(chat_id)).title
-            except ChannelInvalid:
-                return await message.reply_text(f"ʟᴏᴏʟ ʟɪᴋᴇ ɪ ᴀᴍ ɴᴏᴛ ᴀɴ ᴀᴅᴍɪɴ ᴏғ ᴛʜᴇ ᴄʜᴀᴛ ɪᴅ {chat_id}")
-            
-            admin_ids = [member.user.id async for member in app.get_chat_members(chat_id, filter=ChatMembersFilter.ADMINISTRATORS)]
-            if message.from_user.id not in admin_ids:
-                return await message.reply_text(f"sᴏʀʀʏ sɪʀ ʙᴜᴛ ɪ ᴛʜɪɴᴋ ᴛʜᴀᴛ ʏᴏᴜ ɴᴏᴛ ᴀɴ ᴀᴅᴍɪɴ ᴏғ {title}")
-            a = await connect_to_chat(message.from_user.id, chat_id)
-            if a:
-                await message.reply_text(f"ʏᴏᴜ ᴀʀᴇ ɴᴏᴡ ᴄᴏɴɴᴇᴄᴛᴇᴅ ᴛᴏ {title}")
-            else:
-                await message.reply_text(a)
+
         
         if name[0:3] == "sud":
             await sudoers_list(client=client, message=message, _=_)
@@ -65,7 +38,7 @@ async def start_pm(client, message: Message, _):
             return
         if name[0:3] == "inf":
             m = await message.reply_text("🔎")
-            query = (str(name)).replace("info_", "", 1)
+            query = (str(name)).replace("info_", "info", 1)
             query = f"https://www.youtube.com/watch?v={query}"
             results = VideosSearch(query, limit=1)
             for result in (await results.next())["result"]:
@@ -173,6 +146,7 @@ async def welcome(client, message: Message):
                 await message.stop_propagation()
         except Exception as ex:
             print(ex)
+
 
 
 
