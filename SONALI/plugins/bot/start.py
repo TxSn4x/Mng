@@ -32,7 +32,7 @@ async def start_pm(client, message: Message, _):
     await add_served_user(message.from_user.id)
     if len(message.text.split()) > 1:
         name = message.text.split(None, 1)[1]
-        if name[0:4] == "help":
+        if name[0:4] == "":
             keyboard = help_pannel(_)
             return await message.reply_video(
                 video=config.START_IMG_URL,
@@ -173,6 +173,7 @@ async def welcome(client, message: Message):
                 await message.stop_propagation()
         except Exception as ex:
             print(ex)
+
 
 
 
